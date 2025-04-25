@@ -11,6 +11,42 @@ use Illuminate\Support\Facades\Log;
 
 class WorkspaceController extends Controller
 {
+
+// Mendapatkan semua workspace
+public function index()
+{
+    try {
+        $workspaces = Workspace::all();
+        return response()->json([
+            'success' => true,
+            'data' => $workspaces
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to retrieve workspaces',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+// Mendapatkan detail workspace berdasarkan ID
+public function getWorkspace($id)
+{
+    try {
+        $workspace = Workspace::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $workspace
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Workspace not found',
+            'error' => $e->getMessage()
+        ], 404);
+    }
+}
     public function show(Workspace $workspace): View
     {
         return view('workspace.detail', compact('workspace'));
