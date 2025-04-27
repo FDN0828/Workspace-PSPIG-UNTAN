@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,6 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/workspace/{workspace}/booking', [WorkspaceController::class, 'booking'])->name('workspace.booking');
     Route::get('/workspace/{workspace}/edit', [WorkspaceController::class, 'edit'])->name('workspace.edit');
     Route::put('/workspace/{workspace}', [WorkspaceController::class, 'update'])->name('workspace.update');
+    
+    // Admin routes - Middleware diubah ke manual check di controller
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // User Management
+        Route::resource('users', UserController::class);
+    });
 });
 
 require __DIR__.'/auth.php';

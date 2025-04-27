@@ -12,33 +12,21 @@
                 <h2 class="text-2xl font-bold mb-4">Workspace Tersedia</h2>
 
                 @if(isset($workspaces) && $workspaces->count() > 0)
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         @foreach($workspaces as $workspace)
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                                <div class="relative h-48">
-                                    <img src="{{ $workspace->getGambarUrl() }}" 
-                                         alt="{{ $workspace->nama_workspace }}" 
-                                         class="w-full h-full object-cover workspace-img">
-                                </div>
-                                <div class="p-4">
-                                    <h3 class="text-lg font-semibold">{{ $workspace->nama_workspace }}</h3>
-                                    <div class="mt-2">
-                                        <p class="text-red-600 font-semibold">Rp {{ number_format($workspace->harga_per_jam, 0, ',', '.') }}/jam</p>
-                                        <p class="text-sm text-gray-500">Kapasitas: {{ $workspace->kapasitas }} orang</p>
-                                        <p class="text-sm text-gray-500">{{ $workspace->alamat }}</p>
+                            <a href="{{ route('workspace.detail', $workspace->workspace_id) }}" class="workspace-card">
+                                <div class="bg-white rounded-lg overflow-hidden">
+                                    <div class="workspace-image-container">
+                                        <img src="{{ $workspace->getGambarUrl() }}" 
+                                             alt="{{ $workspace->nama_workspace }}" 
+                                             class="workspace-thumbnail">
                                     </div>
-                                    <div class="mt-4 flex justify-between items-center">
-                                        <a href="{{ route('workspace.detail', $workspace->workspace_id) }}" 
-                                           class="text-blue-600 hover:text-blue-800">
-                                            Detail
-                                        </a>
-                                        <a href="{{ route('workspace.booking', $workspace->workspace_id) }}" 
-                                           class="bg-blue-600 text-blue px-4 py-2 rounded hover:bg-blue-700">
-                                            Pesan
-                                        </a>
+                                    <div class="workspace-info">
+                                        <div class="workspace-name">{{ $workspace->nama_workspace }}</div>
+                                        <div class="workspace-price">Rp {{ number_format($workspace->harga_per_jam, 0, ',', '.') }}/jam</div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 @else

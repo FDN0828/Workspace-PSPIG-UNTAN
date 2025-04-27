@@ -52,4 +52,9 @@ class Workspace extends Model
         }
         return asset('images/default-workspace.jpg');
     }
+
+    public function fasilitas()
+    {
+        return $this->belongsToMany(Fasilitas::class, 'fasilitas_workspace', 'workspace_id', 'fasilitas_id');
+    }
 } 

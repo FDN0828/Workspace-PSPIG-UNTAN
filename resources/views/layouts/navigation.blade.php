@@ -11,6 +11,13 @@
                         <li class="nav-item">
                             <a href="{{ url('/dashboard') }}" class="nav-link">Dashboard</a>
                         </li>
+                        
+                        @if(Auth::user()->role === 'admin')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.users.index') }}" class="nav-link">User Management</a>
+                        </li>
+                        @endif
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ Auth::user()->username }}
