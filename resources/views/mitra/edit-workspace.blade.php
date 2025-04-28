@@ -102,11 +102,11 @@
 
                         <!-- Tombol Aksi -->
                         <div class="flex flex-col space-y-4 mt-6">
-                            <button type="submit" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-4 rounded-lg text-lg text-center shadow-md">
+                            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">
                                 Konfirmasi Perubahan
                             </button>
                             
-                            <a href="{{ route('dashboard') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-4 rounded-lg text-lg text-center shadow-md">
+                            <a href="{{ route('dashboard') }}" class="bg-blue-600 hover:bg-blue-700 transition text-white font-bold py-2 px-4 rounded-lg text-lg text-center shadow-md">
                                 Kembali ke Dashboard
                             </a>
                         </div>

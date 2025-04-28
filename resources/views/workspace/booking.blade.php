@@ -20,11 +20,11 @@
                         </div>
                         <div class="mb-4">
                             <h3 class="text-lg font-semibold mb-2">Fasilitas yang Ditawarkan</h3>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 gap-y-3">
+                            <div>
                                 @foreach($workspace->fasilitas as $fasilitas)
                                 <div class="flex items-center space-x-2 py-2">
                                     <span class="w-6 flex justify-left"><i class="fas {{ $fasilitas->ikon }} text-lg"></i></span>
-                                    <span class="truncate">{{ $fasilitas->nama }}</span>
+                                    <span>{{ $fasilitas->nama }}</span>
                                 </div>
                                 @endforeach
                             </div>

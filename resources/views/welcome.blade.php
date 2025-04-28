@@ -51,8 +51,8 @@
             <div class="container text-center">
                 <h1 class="display-4 mb-4">Temukan Workspace Terbaik untuk Produktivitasmu</h1>
                 <p class="lead mb-5">Platform sewa workspace yang memudahkan Anda menemukan tempat kerja nyaman sesuai kebutuhan</p>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn btn-primary btn-lg">Mulai Sekarang</a>
+                @if (Route::has('login'))
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg">Mulai Sekarang</a>
                 @endif
             </div>
         </section>
@@ -94,7 +94,7 @@
         </section>
 
         <!-- Footer -->
-        <footer class="bg-dark text-white py-4">
+        <footer class="text-white py-4">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
