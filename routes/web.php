@@ -16,6 +16,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+    //API
+Route::get('/workspaces', [WorkspaceController::class, 'index']);
+Route::get('/workspaces/{id}', [WorkspaceController::class, 'list']);
+
 // Google Login Routes
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

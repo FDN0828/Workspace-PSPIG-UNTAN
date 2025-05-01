@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

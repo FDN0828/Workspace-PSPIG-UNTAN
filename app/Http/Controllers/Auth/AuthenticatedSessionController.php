@@ -31,6 +31,30 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
+    // Di AuthenticatedSessionController
+    // public function apiLogin(Request $request)
+    // {
+    //     try {
+    //         $credentials = $request->only('email', 'password');
+    
+    //         if (!Auth::attempt($credentials)) {
+    //             return response()->json(['message' => 'Login gagal'], 401);
+    //         }
+
+    
+    //         return response()->json([
+    //             'message' => 'Login berhasil',
+    //             'user' => Auth::user()
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'error' => 'Terjadi error',
+    //             'debug' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+    
+
     /**
      * Destroy an authenticated session.
      */
@@ -44,4 +68,5 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+    
 }

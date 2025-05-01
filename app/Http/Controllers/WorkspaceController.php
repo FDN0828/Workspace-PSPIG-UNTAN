@@ -9,9 +9,34 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
 
 class WorkspaceController extends Controller
 {
+    public function index() {
+        $workspaces = Workspace::all();
+        return response()->json([
+            'success' => true,
+            'data' => $workspaces,
+            'message' => 'List workspace berhasil diambil'
+        ]);
+    }
+    
+    public function list($id) {
+        $workspace = Workspace::with('fasilitas')->find($id);
+        if (!$workspace) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Workspace tidak ditemukan'
+            ], 404);
+        }
+        return response()->json([
+            'success' => true,
+            'data' => $workspace,
+            'message' => 'Detail workspace berhasil diambil'
+        ]);
+    }
+    
     public function show(Workspace $workspace): View
     {
         return view('workspace.detail', compact('workspace'));
