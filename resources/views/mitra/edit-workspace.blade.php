@@ -16,7 +16,7 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('workspace.update', $workspace->workspace_id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('workspace.update', $workspace->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

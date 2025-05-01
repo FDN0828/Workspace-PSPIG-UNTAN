@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('fasilitas_id');
             $table->timestamps();
 
-            $table->foreign('workspace_id')->references('workspace_id')->on('workspaces')->onDelete('cascade');
+            $table->foreign('workspace_id')->references('id')->on('workspaces')->onDelete('cascade');
             $table->foreign('fasilitas_id')->references('id')->on('fasilitas')->onDelete('cascade');
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Workspace;
+use App\Models\Pemesanan;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,88 @@ class WorkspaceController extends Controller
         } catch (\Exception $e) {
             Log::error('Error updating workspace: ' . $e->getMessage());
             return back()->with('error', 'Terjadi kesalahan saat memperbarui workspace: ' . $e->getMessage())->withInput();
+        }
+    }
+
+    public function storeBooking(Request $request, Workspace $workspace)
+    {
+        $request->validate([
+            'tanggal' => 'required|date|after_or_equal:today',
+            'jam_mulai' => 'required',
+            'durasi' => 'required|integer|min:1|max:12',
+        ]);
+
+        try {
+            $jam_mulai = \Carbon\Carbon::parse($request->tanggal . ' ' . $request->jam_mulai);
+            $jam_selesai = $jam_mulai->copy()->addHours((int)$request->durasi);
+            
+            // Gunakan total_harga dari form jika ada, jika tidak hitung berdasarkan durasi
+            $total_harga = $request->total_harga ?? ($workspace->harga_per_jam * (int)$request->durasi);
+
+            $pemesanan = Pemesanan::create([
+                'customer_id' => auth()->id(),
+                'workspace_id' => $workspace->id,
+                'tanggal_mulai' => $jam_mulai->format('Y-m-d'),
+                'tanggal_selesai' => $jam_selesai->format('Y-m-d'),
+                'jam_mulai' => $jam_mulai->format('H:i:s'),
+                'jam_selesai' => $jam_selesai->format('H:i:s'),
+                'total_harga' => $total_harga,
+                'status_pemesanan' => 'PENDING'
+            ]);
+
+            // Redirect ke halaman pembayaran dengan menyertakan ID pemesanan
+            return redirect()->route('payment.form', [
+                'amount' => $total_harga, 
+                'pemesanan_id' => $pemesanan->pemesanan_id
+            ])->with('success', 'Pemesanan berhasil dibuat. Silakan lakukan pembayaran.');
+        } catch (\Exception $e) {
+            Log::error('Error creating booking: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat membuat pemesanan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function myBookings()
+    {
+        $pemesanans = Pemesanan::where('customer_id', auth()->id())
+            ->with(['workspace', 'transaction'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('booking.history', compact('pemesanans'));
+    }
+
+    public function bookingDetail(Pemesanan $pemesanan)
+    {
+        // Pastikan user hanya bisa melihat pemesanannya sendiri
+        if ($pemesanan->customer_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('booking.detail', compact('pemesanan'));
+    }
+
+    public function cancelBooking(Pemesanan $pemesanan)
+    {
+        // Pastikan user hanya bisa membatalkan pemesanannya sendiri
+        if ($pemesanan->customer_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            // Hanya bisa membatalkan pemesanan yang status-nya "PENDING" atau "MENUNGGU_PEMBAYARAN"
+            if (in_array($pemesanan->status_pemesanan, ['PENDING', 'MENUNGGU_PEMBAYARAN'])) {
+                $pemesanan->update([
+                    'status_pemesanan' => 'BATAL'
+                ]);
+                return redirect()->route('booking.history')
+                    ->with('success', 'Pemesanan berhasil dibatalkan.');
+            } else {
+                return back()->with('error', 'Pemesanan tidak dapat dibatalkan karena status tidak valid.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Error canceling booking: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat membatalkan pemesanan.');
         }
     }
 }

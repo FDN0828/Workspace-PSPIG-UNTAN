@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="mt-6">
-                            <a href="{{ route('workspace.booking', $workspace->workspace_id) }}"
+                            <a href="{{ route('workspace.booking', $workspace->id) }}"
                                 class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                                 Pesan Sekarang
                             </a>

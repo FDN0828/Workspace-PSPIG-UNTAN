@@ -17,6 +17,10 @@
                             <a href="{{ route('admin.users.index') }}" class="nav-link">User Management</a>
                         </li>
                         @endif
+
+                        <li class="nav-item">
+                            <a href="{{ route('booking.history') }}" class="nav-link">Riwayat Transaksi</a>
+                        </li>
                         
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

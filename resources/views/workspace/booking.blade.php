@@ -33,25 +33,52 @@
                     <!-- Kolom Kanan: Form Pemesanan -->
                     <div class="bg-gray-50 rounded-lg shadow-md p-6 h-fit">
                         <h3 class="text-lg font-semibold mb-4">Form Pemesanan</h3>
-                        <form action="#" method="POST" class="space-y-4">
+                        
+                        @if(session('error'))
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        
+                        <form action="{{ route('workspace.booking.store', $workspace) }}" method="POST" class="space-y-4" id="bookingForm">
+                            @csrf
                             <div>
                                 <label class="block text-gray-700 mb-1">Nama Pemesan</label>
                                 <input type="text" name="nama" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" value="{{ Auth::user()->username }}" readonly required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 mb-1">Tanggal</label>
-                                <input type="date" name="tanggal" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                                <input type="date" name="tanggal" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                                       min="{{ date('Y-m-d') }}" value="{{ date('Y-m-d') }}" required>
                             </div>
                             <div class="flex space-x-2">
                                 <div class="w-1/2">
                                     <label class="block text-gray-700 mb-1">Jam Mulai</label>
-                                    <input type="time" name="jam_mulai" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                                    <input type="time" name="jam_mulai" id="jam_mulai" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                                 </div>
                                 <div class="w-1/2">
                                     <label class="block text-gray-700 mb-1">Durasi (jam)</label>
-                                    <input type="number" name="durasi" min="1" max="12" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                                    <input type="number" name="durasi" id="durasi" min="1" max="12" value="1" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                                 </div>
                             </div>
+                            
+                            <!-- Total Harga Dinamis -->
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-700">Harga per jam:</span>
+                                    <span>Rp {{ number_format($workspace->harga_per_jam, 0, ',', '.') }}</span>
+                                </div>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span class="text-gray-700">Durasi:</span>
+                                    <span id="durasiDisplay">1 jam</span>
+                                </div>
+                                <div class="flex justify-between items-center font-bold text-blue-700 mt-2 pt-2 border-t border-blue-200">
+                                    <span>Total:</span>
+                                    <span id="totalPrice">Rp {{ number_format($workspace->harga_per_jam, 0, ',', '.') }}</span>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" name="total_harga" id="totalHargaInput" value="{{ $workspace->harga_per_jam }}">
                             <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">Pesan Sekarang</button>
                         </form>
                     </div>
@@ -59,6 +86,34 @@
             </div>
         </div>
     </div>
+    
     <!-- Font Awesome CDN untuk ikon fasilitas -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <script>
+        // Harga per jam dari workspace
+        const hargaPerJam = {{ $workspace->harga_per_jam }};
+        
+        // Menghitung total harga berdasarkan durasi
+        function hitungTotal() {
+            const durasi = document.getElementById('durasi').value;
+            const total = hargaPerJam * durasi;
+            
+            // Update tampilan durasi
+            document.getElementById('durasiDisplay').textContent = durasi + ' jam';
+            
+            // Format total harga dengan pemisah ribuan
+            const formattedTotal = new Intl.NumberFormat('id-ID').format(total);
+            document.getElementById('totalPrice').textContent = 'Rp ' + formattedTotal;
+            
+            // Update nilai hidden input untuk dikirim ke server
+            document.getElementById('totalHargaInput').value = total;
+        }
+        
+        // Jalankan perhitungan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', hitungTotal);
+        
+        // Tambahkan event listener untuk perubahan durasi
+        document.getElementById('durasi').addEventListener('input', hitungTotal);
+    </script>
 </x-app-layout> 

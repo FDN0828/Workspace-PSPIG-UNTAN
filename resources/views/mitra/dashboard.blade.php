@@ -34,7 +34,7 @@
                                     </p>
                                 </div>
                                 <div class="mt-4">
-                                    <a href="{{ route('workspace.edit', $workspace->workspace_id) }}"
+                                    <a href="{{ route('workspace.edit', $workspace->id) }}"
                                         class="text-blue-600 hover:text-blue-800">
                                         Edit Workspace
                                     </a>

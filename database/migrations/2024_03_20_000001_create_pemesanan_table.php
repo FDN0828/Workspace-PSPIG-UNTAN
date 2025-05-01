@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('pemesanan', function (Blueprint $table) {
             $table->integer('pemesanan_id', true, true)->length(11);
             $table->integer('customer_id')->unsigned();
-            $table->integer('workspace_id')->unsigned();
+            $table->unsignedBigInteger('workspace_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->time('jam_mulai');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('total_harga', 10, 2);
             $table->enum('status_pemesanan', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
             $table->foreign('customer_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreign('workspace_id')->references('workspace_id')->on('workspaces')->onDelete('cascade');
+            $table->foreign('workspace_id')->references('id')->on('workspaces')->onDelete('cascade');
             $table->timestamps();
         });
     }

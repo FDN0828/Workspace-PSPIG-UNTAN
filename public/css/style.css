@@ -1,6 +1,6 @@
 /* Navigation Styles */
 .navbar {
-    background-color: #53e18c !important;
+    background-color: #5ec688 !important;
     padding: 1rem 0;
 }
 
@@ -71,7 +71,7 @@
 
 /* Footer */
 footer {
-    background-color: #53e18c;
+    background-color: #5ec688;
     color: white;
     padding: 2rem 0;
 }
@@ -251,3 +251,5 @@ footer p {
 .bg-blue-600 { background-color: #3182ce; }
 .hover\:bg-blue-700:hover { background-color: #1D4ED8; }
 .transition { transition: all 0.2s; }
+.h-10 { height: 2.5rem; }
+.mr-3 { margin-right: 0.75rem; }

@@ -52,7 +52,7 @@
                 <h1 class="display-4 mb-4">Temukan Workspace Terbaik untuk Produktivitasmu</h1>
                 <p class="lead mb-5">Platform sewa workspace yang memudahkan Anda menemukan tempat kerja nyaman sesuai kebutuhan</p>
                 @if (Route::has('login'))
-                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg">Mulai Sekarang</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg"">Mulai Sekarang</a>
                 @endif
             </div>
         </section>

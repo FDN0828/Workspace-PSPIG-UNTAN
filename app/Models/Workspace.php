@@ -10,9 +10,6 @@ class Workspace extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'workspace_id';
-    public $incrementing = true;
-
     protected $fillable = [
         'nama_workspace',
         'deskripsi',

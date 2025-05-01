@@ -14,7 +14,7 @@
                 @if(isset($workspaces) && $workspaces->count() > 0)
                     <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         @foreach($workspaces as $workspace)
-                            <a href="{{ route('workspace.detail', $workspace->workspace_id) }}" class="workspace-card">
+                            <a href="{{ route('workspace.detail', $workspace->id) }}" class="workspace-card">
                                 <div class="bg-white rounded-lg overflow-hidden">
                                     <div class="workspace-image-container">
                                         <img src="{{ $workspace->getGambarUrl() }}" 
